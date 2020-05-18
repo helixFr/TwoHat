@@ -21,10 +21,11 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 
 #line 3 "GoBackend.go"
 
- #define Py_LIMITED_API
- #include <Python.h>
- int PyArg_ParseTuple_Ls(PyObject *, long *, char **);
- int PyArg_ParseTuple_L(PyObject *, long *);
+
+#define Py_LIMITED_API
+#include <Python.h>
+int PyArg_ParseTuple_Ls(PyObject *, long *, char **);
+int PyArg_ParseTuple_L(PyObject *, long *);
 
 #line 1 "cgo-generated-wrapper"
 
@@ -77,9 +78,9 @@ extern "C" {
 #endif
 
 
-extern PyObject* loadJson(PyObject* p0, PyObject* p1);
+extern long int loadJson();
 
-extern PyObject* returnFromJson(PyObject* p0, PyObject* p1);
+extern char* returnFromJson(long int p0, char* p1);
 
 #ifdef __cplusplus
 }

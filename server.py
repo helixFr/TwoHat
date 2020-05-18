@@ -1,5 +1,6 @@
+from pyBackend import *
+from cffi import FFI
 import flask
-import backend
 import json
 import itertools
 import time
@@ -8,7 +9,7 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 def get_word(word, dicts):
-    word_dict = json.loads(backend.returnFromJson(jsonLoc, word))
+    word_dict = json.loads(ffi.string(lib.returnFromJson(jsonLoc, word.encode("utf-8"))))
     if word_dict not in dicts:
         dicts.append(word_dict)
 
@@ -41,6 +42,7 @@ def home():
     requestDict["topics"] = merged
     return json.dumps(requestDict)
 
-jsonLoc = backend.loadJson()
+ffi = FFI()
+jsonLoc = lib.loadJson()
 print("Loaded json")
 app.run(host = "127.0.0.1", port = 8080)
