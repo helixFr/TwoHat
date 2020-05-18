@@ -7,7 +7,7 @@ import time
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-def get_topics(word, dicts):
+def get_word(word, dicts):
     word_dict = json.loads(backend.returnFromJson(jsonLoc, word))
     if word_dict not in dicts:
         dicts.append(word_dict)
@@ -35,7 +35,7 @@ def home():
     word_list = filter_text(requestDict["text"])
     word_list = list(itertools.chain.from_iterable(itertools.repeat(x, 100) for x in word_list))
     for word in word_list:
-        get_topics(word, dicts)
+        get_word(word, dicts)
 
     merge_topics(dicts, merged)
     requestDict["topics"] = merged
