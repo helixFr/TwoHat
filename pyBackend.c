@@ -547,12 +547,266 @@ static void (*_cffi_call_python_org)(struct _cffi_externpy_s *, char *);
 static void *_cffi_types[] = {
 /*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 2), // char *()(long, char *)
 /*  1 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 9), // long
-/*  2 */ _CFFI_OP(_CFFI_OP_POINTER, 6), // char *
+/*  2 */ _CFFI_OP(_CFFI_OP_POINTER, 33), // char *
 /*  3 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  4 */ _CFFI_OP(_CFFI_OP_FUNCTION, 1), // long()(void)
-/*  5 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  6 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 2), // char
+/*  4 */ _CFFI_OP(_CFFI_OP_FUNCTION, 7), // int()(unsigned int, char *, int)
+/*  5 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 8), // unsigned int
+/*  6 */ _CFFI_OP(_CFFI_OP_NOOP, 2),
+/*  7 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7), // int
+/*  8 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/*  9 */ _CFFI_OP(_CFFI_OP_FUNCTION, 1), // long()(void)
+/* 10 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 11 */ _CFFI_OP(_CFFI_OP_FUNCTION, 34), // void()(char *)
+/* 12 */ _CFFI_OP(_CFFI_OP_NOOP, 2),
+/* 13 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 14 */ _CFFI_OP(_CFFI_OP_FUNCTION, 34), // void()(char *, void(*)(unsigned int, Request *))
+/* 15 */ _CFFI_OP(_CFFI_OP_NOOP, 2),
+/* 16 */ _CFFI_OP(_CFFI_OP_POINTER, 18), // void(*)(unsigned int, Request *)
+/* 17 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 18 */ _CFFI_OP(_CFFI_OP_FUNCTION, 34), // void()(unsigned int, Request *)
+/* 19 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 8),
+/* 20 */ _CFFI_OP(_CFFI_OP_POINTER, 31), // Request *
+/* 21 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 22 */ _CFFI_OP(_CFFI_OP_FUNCTION, 34), // void()(unsigned int, Request *, void(*)(unsigned int, Request *))
+/* 23 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 8),
+/* 24 */ _CFFI_OP(_CFFI_OP_NOOP, 20),
+/* 25 */ _CFFI_OP(_CFFI_OP_NOOP, 16),
+/* 26 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 27 */ _CFFI_OP(_CFFI_OP_FUNCTION, 34), // void()(unsigned int, int)
+/* 28 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 8),
+/* 29 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7),
+/* 30 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
+/* 31 */ _CFFI_OP(_CFFI_OP_STRUCT_UNION, 0), // Request
+/* 32 */ _CFFI_OP(_CFFI_OP_POINTER, 33), // char const *
+/* 33 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 2), // char
+/* 34 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
 };
+
+static void _cffi_d_Call_HandleFunc(unsigned int x0, Request * x1, void(* x2)(unsigned int, Request *))
+{
+  Call_HandleFunc(x0, x1, x2);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_Call_HandleFunc(PyObject *self, PyObject *args)
+{
+  unsigned int x0;
+  Request * x1;
+  void(* x2)(unsigned int, Request *);
+  Py_ssize_t datasize;
+  struct _cffi_freeme_s *large_args_free = NULL;
+  PyObject *arg0;
+  PyObject *arg1;
+  PyObject *arg2;
+
+  if (!PyArg_UnpackTuple(args, "Call_HandleFunc", 3, 3, &arg0, &arg1, &arg2))
+    return NULL;
+
+  x0 = _cffi_to_c_int(arg0, unsigned int);
+  if (x0 == (unsigned int)-1 && PyErr_Occurred())
+    return NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(20), arg1, (char **)&x1);
+  if (datasize != 0) {
+    x1 = ((size_t)datasize) <= 640 ? (Request *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(20), arg1, (char **)&x1,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  x2 = (void(*)(unsigned int, Request *))_cffi_to_c_pointer(arg2, _cffi_type(16));
+  if (x2 == (void(*)(unsigned int, Request *))NULL && PyErr_Occurred())
+    return NULL;
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { Call_HandleFunc(x0, x1, x2); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+#else
+#  define _cffi_f_Call_HandleFunc _cffi_d_Call_HandleFunc
+#endif
+
+static void _cffi_d_HandleFunc(char * x0, void(* x1)(unsigned int, Request *))
+{
+  HandleFunc(x0, x1);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_HandleFunc(PyObject *self, PyObject *args)
+{
+  char * x0;
+  void(* x1)(unsigned int, Request *);
+  Py_ssize_t datasize;
+  struct _cffi_freeme_s *large_args_free = NULL;
+  PyObject *arg0;
+  PyObject *arg1;
+
+  if (!PyArg_UnpackTuple(args, "HandleFunc", 2, 2, &arg0, &arg1))
+    return NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(2), arg0, (char **)&x0);
+  if (datasize != 0) {
+    x0 = ((size_t)datasize) <= 640 ? (char *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(2), arg0, (char **)&x0,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  x1 = (void(*)(unsigned int, Request *))_cffi_to_c_pointer(arg1, _cffi_type(16));
+  if (x1 == (void(*)(unsigned int, Request *))NULL && PyErr_Occurred())
+    return NULL;
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { HandleFunc(x0, x1); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+#else
+#  define _cffi_f_HandleFunc _cffi_d_HandleFunc
+#endif
+
+static void _cffi_d_ListenAndServe(char * x0)
+{
+  ListenAndServe(x0);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_ListenAndServe(PyObject *self, PyObject *arg0)
+{
+  char * x0;
+  Py_ssize_t datasize;
+  struct _cffi_freeme_s *large_args_free = NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(2), arg0, (char **)&x0);
+  if (datasize != 0) {
+    x0 = ((size_t)datasize) <= 640 ? (char *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(2), arg0, (char **)&x0,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { ListenAndServe(x0); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+#else
+#  define _cffi_f_ListenAndServe _cffi_d_ListenAndServe
+#endif
+
+static int _cffi_d_ResponseWriter_Write(unsigned int x0, char * x1, int x2)
+{
+  return ResponseWriter_Write(x0, x1, x2);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_ResponseWriter_Write(PyObject *self, PyObject *args)
+{
+  unsigned int x0;
+  char * x1;
+  int x2;
+  Py_ssize_t datasize;
+  struct _cffi_freeme_s *large_args_free = NULL;
+  int result;
+  PyObject *pyresult;
+  PyObject *arg0;
+  PyObject *arg1;
+  PyObject *arg2;
+
+  if (!PyArg_UnpackTuple(args, "ResponseWriter_Write", 3, 3, &arg0, &arg1, &arg2))
+    return NULL;
+
+  x0 = _cffi_to_c_int(arg0, unsigned int);
+  if (x0 == (unsigned int)-1 && PyErr_Occurred())
+    return NULL;
+
+  datasize = _cffi_prepare_pointer_call_argument(
+      _cffi_type(2), arg1, (char **)&x1);
+  if (datasize != 0) {
+    x1 = ((size_t)datasize) <= 640 ? (char *)alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(2), arg1, (char **)&x1,
+            datasize, &large_args_free) < 0)
+      return NULL;
+  }
+
+  x2 = _cffi_to_c_int(arg2, int);
+  if (x2 == (int)-1 && PyErr_Occurred())
+    return NULL;
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { result = ResponseWriter_Write(x0, x1, x2); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  pyresult = _cffi_from_c_int(result, int);
+  if (large_args_free != NULL) _cffi_free_array_arguments(large_args_free);
+  return pyresult;
+}
+#else
+#  define _cffi_f_ResponseWriter_Write _cffi_d_ResponseWriter_Write
+#endif
+
+static void _cffi_d_ResponseWriter_WriteHeader(unsigned int x0, int x1)
+{
+  ResponseWriter_WriteHeader(x0, x1);
+}
+#ifndef PYPY_VERSION
+static PyObject *
+_cffi_f_ResponseWriter_WriteHeader(PyObject *self, PyObject *args)
+{
+  unsigned int x0;
+  int x1;
+  PyObject *arg0;
+  PyObject *arg1;
+
+  if (!PyArg_UnpackTuple(args, "ResponseWriter_WriteHeader", 2, 2, &arg0, &arg1))
+    return NULL;
+
+  x0 = _cffi_to_c_int(arg0, unsigned int);
+  if (x0 == (unsigned int)-1 && PyErr_Occurred())
+    return NULL;
+
+  x1 = _cffi_to_c_int(arg1, int);
+  if (x1 == (int)-1 && PyErr_Occurred())
+    return NULL;
+
+  Py_BEGIN_ALLOW_THREADS
+  _cffi_restore_errno();
+  { ResponseWriter_WriteHeader(x0, x1); }
+  _cffi_save_errno();
+  Py_END_ALLOW_THREADS
+
+  (void)self; /* unused */
+  Py_INCREF(Py_None);
+  return Py_None;
+}
+#else
+#  define _cffi_f_ResponseWriter_WriteHeader _cffi_d_ResponseWriter_WriteHeader
+#endif
 
 static long _cffi_d_loadJson(void)
 {
@@ -628,24 +882,71 @@ _cffi_f_returnFromJson(PyObject *self, PyObject *args)
 #  define _cffi_f_returnFromJson _cffi_d_returnFromJson
 #endif
 
+_CFFI_UNUSED_FN
+static void _cffi_checkfld__Request(Request *p)
+{
+  /* only to generate compile-time warnings or errors */
+  (void)p;
+  { char const * *tmp = &p->Method; (void)tmp; }
+  { char const * *tmp = &p->Host; (void)tmp; }
+  { char const * *tmp = &p->URL; (void)tmp; }
+  { char const * *tmp = &p->Body; (void)tmp; }
+  { char const * *tmp = &p->Headers; (void)tmp; }
+}
+struct _cffi_align__Request { char x; Request y; };
+
 static const struct _cffi_global_s _cffi_globals[] = {
-  { "loadJson", (void *)_cffi_f_loadJson, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 4), (void *)_cffi_d_loadJson },
+  { "Call_HandleFunc", (void *)_cffi_f_Call_HandleFunc, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 22), (void *)_cffi_d_Call_HandleFunc },
+  { "HandleFunc", (void *)_cffi_f_HandleFunc, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 14), (void *)_cffi_d_HandleFunc },
+  { "ListenAndServe", (void *)_cffi_f_ListenAndServe, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_O, 11), (void *)_cffi_d_ListenAndServe },
+  { "ResponseWriter_Write", (void *)_cffi_f_ResponseWriter_Write, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 4), (void *)_cffi_d_ResponseWriter_Write },
+  { "ResponseWriter_WriteHeader", (void *)_cffi_f_ResponseWriter_WriteHeader, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 27), (void *)_cffi_d_ResponseWriter_WriteHeader },
+  { "loadJson", (void *)_cffi_f_loadJson, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_N, 9), (void *)_cffi_d_loadJson },
   { "returnFromJson", (void *)_cffi_f_returnFromJson, _CFFI_OP(_CFFI_OP_CPYTHON_BLTN_V, 0), (void *)_cffi_d_returnFromJson },
+};
+
+static const struct _cffi_field_s _cffi_fields[] = {
+  { "Method", offsetof(Request, Method),
+              sizeof(((Request *)0)->Method),
+              _CFFI_OP(_CFFI_OP_NOOP, 32) },
+  { "Host", offsetof(Request, Host),
+            sizeof(((Request *)0)->Host),
+            _CFFI_OP(_CFFI_OP_NOOP, 32) },
+  { "URL", offsetof(Request, URL),
+           sizeof(((Request *)0)->URL),
+           _CFFI_OP(_CFFI_OP_NOOP, 32) },
+  { "Body", offsetof(Request, Body),
+            sizeof(((Request *)0)->Body),
+            _CFFI_OP(_CFFI_OP_NOOP, 32) },
+  { "Headers", offsetof(Request, Headers),
+               sizeof(((Request *)0)->Headers),
+               _CFFI_OP(_CFFI_OP_NOOP, 32) },
+};
+
+static const struct _cffi_struct_union_s _cffi_struct_unions[] = {
+  { "Request_", 31, _CFFI_F_CHECK_FIELDS,
+    sizeof(Request), offsetof(struct _cffi_align__Request, y), 0, 5 },
+};
+
+static const struct _cffi_typename_s _cffi_typenames[] = {
+  { "FuncPtr", 18 },
+  { "Request", 31 },
+  { "ResponseWriterPtr", 5 },
 };
 
 static const struct _cffi_type_context_s _cffi_type_context = {
   _cffi_types,
   _cffi_globals,
-  NULL,  /* no fields */
-  NULL,  /* no struct_unions */
+  _cffi_fields,
+  _cffi_struct_unions,
   NULL,  /* no enums */
-  NULL,  /* no typenames */
-  2,  /* num_globals */
-  0,  /* num_struct_unions */
+  _cffi_typenames,
+  7,  /* num_globals */
+  1,  /* num_struct_unions */
   0,  /* num_enums */
-  0,  /* num_typenames */
+  3,  /* num_typenames */
   NULL,  /* no includes */
-  7,  /* num_types */
+  35,  /* num_types */
   0,  /* flags */
 };
 

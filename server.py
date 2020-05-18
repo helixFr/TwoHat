@@ -1,12 +1,10 @@
-from pyBackend import *
+from goHttpWrapper import route, run
 from cffi import FFI
-import flask
+from pyBackend import *
 import json
 import itertools
 import time
-
-app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+import ctypes
 
 def get_word(word, dicts):
     word_dict = json.loads(ffi.string(lib.returnFromJson(jsonLoc, word.encode("utf-8"))))
@@ -27,11 +25,11 @@ def merge_topics(dicts, merged):
 def filter_text(str):
     return str.split()
 
-@app.route('/', methods=['GET', 'POST'])
-def home():
+@route('/')
+def index(w, req):
     merged = {}
     dicts = []
-    requestString = flask.request.data.decode("utf-8")
+    requestString = req.body.decode("utf-8")
     requestDict = json.loads(requestString)
     word_list = filter_text(requestDict["text"])
     word_list = list(itertools.chain.from_iterable(itertools.repeat(x, 100) for x in word_list))
@@ -40,9 +38,12 @@ def home():
 
     merge_topics(dicts, merged)
     requestDict["topics"] = merged
-    return json.dumps(requestDict)
+    w.write(b"%s" % json.dumps(requestDict).encode("utf-8"))
+    # w.write(b"Hello")
+    # w.write(b"%s" % requestString.encode("utf-8"))
+    # return json.dumps(requestDict)
 
 ffi = FFI()
 jsonLoc = lib.loadJson()
 print("Loaded json")
-app.run(host = "127.0.0.1", port = 8080)
+run()

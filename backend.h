@@ -24,8 +24,23 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 
 #define Py_LIMITED_API
 #include <Python.h>
-int PyArg_ParseTuple_Ls(PyObject *, long *, char **);
-int PyArg_ParseTuple_L(PyObject *, long *);
+#include<stdlib.h>
+typedef struct Request_
+{
+    const char *Method;
+    const char *Host;
+    const char *URL;
+    const char *Body;
+    const char *Headers;
+} Request;
+
+typedef unsigned int ResponseWriterPtr;
+
+typedef void FuncPtr(ResponseWriterPtr w, Request *r);
+
+extern void Call_HandleFunc(ResponseWriterPtr w, Request *r, FuncPtr *fn);
+extern void HandleFunc(char* cpattern, FuncPtr* fn);
+extern void Hello();
 
 #line 1 "cgo-generated-wrapper"
 
@@ -81,6 +96,16 @@ extern "C" {
 extern long int loadJson();
 
 extern char* returnFromJson(long int p0, char* p1);
+
+extern void ListenAndServe(char* p0);
+
+extern void Shutdown();
+
+extern void HandleFunc(char* p0, FuncPtr* p1);
+
+extern int ResponseWriter_Write(long int p0, char* p1, int p2);
+
+extern void ResponseWriter_WriteHeader(long int p0, int p1);
 
 #ifdef __cplusplus
 }
