@@ -26,7 +26,7 @@ Memory usage:           ~15MB
 
 **System Specifications**   
 
-2 cores, 4GB (virtual machine setup for optimal testing)  
+2 cores, 4GB (AWS instances)  
 
 
  
