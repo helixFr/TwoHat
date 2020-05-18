@@ -35,7 +35,7 @@ Memory usage:           ~15MB
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install cffi.
 
 ```bash
-pip install foobar
+pip3 install cffi
 ```  
 
 
