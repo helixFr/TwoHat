@@ -1,9 +1,6 @@
 import os
 from pyBackend import *
 
-# lib = ffi.dlopen(os.path.join(os.path.dirname(__file__), "libgohttp.so"))
-
-# Hang onto handlers so they don't get gc'd
 _handlers = []
 
 
@@ -49,14 +46,6 @@ class Request:
 
 
 def route(pattern, fn=None):
-    """
-    Can be used as a decorator.
-    :param pattern:
-        Address pattern to match against.
-    :param fn:
-        Handler to call when pattern is matched. Handler is given a
-        ResponseWriter and Request object.
-    """
     def wrapped(fn):
         @ffi.callback("void(ResponseWriterPtr, Request*)")
         def handler(w, req):

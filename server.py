@@ -39,9 +39,6 @@ def index(w, req):
     merge_topics(dicts, merged)
     requestDict["topics"] = merged
     w.write(b"%s" % json.dumps(requestDict).encode("utf-8"))
-    # w.write(b"Hello")
-    # w.write(b"%s" % requestString.encode("utf-8"))
-    # return json.dumps(requestDict)
 
 ffi = FFI()
 jsonLoc = lib.loadJson()
