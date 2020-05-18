@@ -77,4 +77,4 @@ Server would start at localhost:5050 [[127.0.0.1:5050]](127.0.0.1:5050)
 
 ## Credits
 
-[shazow: gohttplib](https://github.com/shazow/gohttplib)
+[shazow: gohttplib](https://github.com/shazow/gohttplib) For net/http wrapper from Go
