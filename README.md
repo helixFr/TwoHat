@@ -72,7 +72,7 @@ Server would start at localhost:5050 [[127.0.0.1:5050]](127.0.0.1:5050)
 * Well documented code [please judge]
 * Code broken into reasonable peices ✓
 * 80% coverage ✓
-* 100ms change dictionary ✗
+* 100ms change dictionary ✗ (working)
 
 
 ## Credits
