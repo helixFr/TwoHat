@@ -10,7 +10,7 @@ $ siege -c100 -t45S --content-type "application/json" '127.0.0.1:5050 GET {"text
 ```   
 
 
-QPS/ Transaction Rate:  ~8500  
+QPS/ Transaction Rate:  ~4500  
 Memory usage:           ~535MB     
      
 
@@ -21,7 +21,7 @@ Memory usage:           ~535MB
 $ siege -c100 -t45S '127.0.0.1:5050'
 ```
 
-QPS/ Transaction Rate:  ~12500  
+QPS/ Transaction Rate:  ~6500  
 Memory usage:           ~15MB   
 
 **System Specifications**   
