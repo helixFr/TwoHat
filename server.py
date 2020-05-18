@@ -10,10 +10,11 @@ def filter_text(str):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    return "Hello world"
+    requestString = flask.request.data.decode("utf-8")
+    requestDict = json.loads(requestString)
+    word_list = filter_text(requestDict["text"])
+    return json.dumps(requestDict)
 
 jsonLoc = backend.loadJson()
 print("Loaded json")
-print(json.loads(backend.returnFromJson(jsonLoc, "test")))
-print(json.loads(backend.returnFromJson(jsonLoc, "999")))
 app.run(host = "127.0.0.1", port = 8080)
