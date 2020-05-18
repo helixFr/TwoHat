@@ -2,6 +2,7 @@
 
 Contest entry by Helix [[profile]](https://www.freelancer.com/u/astaroht)
 
+Basic implementation complete. Saw the contest just a few hours before its ending, still working on a few things.
 ## Performance Report
 
 ```bash
