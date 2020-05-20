@@ -21,7 +21,6 @@ typedef struct Request_
 typedef unsigned int ResponseWriterPtr;
 typedef void FuncPtr(ResponseWriterPtr w, Request *r);
 void Call_HandleFunc(ResponseWriterPtr w, Request *r, FuncPtr *fn);
-void ListenAndServe(char* p0);
 void HandleFunc(char* p0, FuncPtr* p1);
 int ResponseWriter_Write(unsigned int p0, char* p1, int p2);
 void ResponseWriter_WriteHeader(unsigned int p0, int p1);
