@@ -38,6 +38,10 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install cffi.
 pip3 install cffi
 ```  
 
+For MacOs (tested) and Ubuntu (tested) with valid Python3 (with CFFI) & GoLang installations:   
+
+For Windows (untested), alongside valid Python3 & GoLang installations, make sure to use **mingw x86-64** (**not 32 bit** version) with **python pkg-config** setup.   
+
 
 **To run the server**  
 
@@ -46,14 +50,27 @@ Clone the repo, and in the directory run:
 ```bash
 python3 server.py
 ```  
-Server would start at localhost:5050 [[127.0.0.1:5050]](127.0.0.1:5050)
+Server would start at localhost:5050 [[127.0.0.1:5050]](127.0.0.1:5050)   
 
+**To re-build (hopefully not required for MacOs and Ubuntu)**    
+
+For shared .so files from .go module  
+
+```bash
+go build -buildmode=c-shared -o backend.so
+```
+
+For boilerplate code using CFFI to enable python import  
+
+```bash
+python3 generateFFI.py
+```
 ## How long it took?
 **< 1 hour** :  Setup python server (flask) with Go backend (load_json, get_topics, etc.)  
 **2 hours**  :    Attempting to get Go FastHttp to talk with Python (i.e. Go calls Python, then Python calls Go), boilerplate communication and runtime clash issue, scrapped.  
 **< 1 hour** :  Setup Go net/http server (as in the given [article](https://blog.heroku.com/see_python_see_python_go_go_python_go))  
 
-**Total** : ~ 4 hours  
+**Total** : ~ 3 hours  
 
 
 ## Miscellaneous
