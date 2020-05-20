@@ -4,7 +4,6 @@ import (
   "fmt"
   "github.com/valyala/fasthttp"
   "encoding/json"
-  "sync"
 )
 
 func doRequest(url string) {
@@ -24,7 +23,6 @@ func doRequest(url string) {
 
   fmt.Println(req)
   fmt.Println(resp)
-  wg.Done()
 }
 
 func main() {
