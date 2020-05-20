@@ -45,25 +45,16 @@ class Request:
         return "{self.method} {self.url}".format(self=self)
 
 
-def route(pattern, fn=None):
+def route(fn=None):
     def wrapped(fn):
         @ffi.callback("void(ResponseWriterPtr, Request*)")
         def handler(w, req):
             fn(ResponseWriter(w), Request(req))
 
-        lib.HandleFunc(str.encode(pattern), handler)
+        lib.HandleFunc(str.encode("/"), handler)
         _handlers.append(handler)
 
     if fn:
         return wrapped(fn)
 
     return wrapped
-
-
-def run(host='', port=5050):
-    bind = '{}:{}'.format(host or '', port)
-    print(" * Running on http://{}/".format(bind))
-    lib.ListenAndServe(str.encode(bind))
-
-def shutdown():
-    lib.Shutdown()

@@ -20,14 +20,11 @@ typedef void FuncPtr(ResponseWriterPtr w, Request *r);
 
 extern void Call_HandleFunc(ResponseWriterPtr w, Request *r, FuncPtr *fn);
 extern void HandleFunc(char* cpattern, FuncPtr* fn);
-extern void Hello();
 */
 import "C"
 import (
-    "net/http"
+    "github.com/valyala/fasthttp"
     "unsafe"
-    "bytes"
-    "context"
     "os"
     "io/ioutil"
     "encoding/json"
@@ -35,7 +32,6 @@ import (
 )
 
 var cpointers = PtrProxy()
-var srv http.Server = http.Server{}
 
 //export loadJson
 func loadJson() C.long {
@@ -78,40 +74,17 @@ func returnFromJson(wPtr C.long, word *C.char) *C.char {
     return C.CString(string(jsonString))
 }
 
-//export ListenAndServe
-func ListenAndServe(caddr *C.char) {
-    addr := C.GoString(caddr)
-    srv.Addr = addr
-    srv.ListenAndServe()
-}
-
-//export Shutdown
-func Shutdown() {
-    srv.Shutdown(context.Background())
-}
-
 //export HandleFunc
 func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
-    // C-friendly wrapping for our http.HandleFunc call.
-    pattern := C.GoString(cpattern)
-    http.HandleFunc(pattern, func(w http.ResponseWriter, req *http.Request) {
-        // Convert the headers to a String
-        headerBuffer := new(bytes.Buffer)
-        req.Header.Write(headerBuffer)
-        headersString := headerBuffer.String()
-        // Convert the request body to a String
-        bodyBuffer := new(bytes.Buffer)
-        bodyBuffer.ReadFrom(req.Body)
-        bodyString := bodyBuffer.String()
-        // Wrap relevant request fields in a C-friendly datastructure.
+    fasthttp.ListenAndServe(":5050", func(ctx *fasthttp.RequestCtx) {
         creq := C.Request{
-            Method:  C.CString(req.Method),
-            Host:    C.CString(req.Host),
-            URL:     C.CString(req.URL.String()),
-            Body:    C.CString(bodyString),
-            Headers: C.CString(headersString),
+            Method:  C.CString(string(ctx.Method())),
+            Host:    C.CString(string(ctx.Host())),
+            URL:     C.CString(string(ctx.RequestURI())),
+            Body:    C.CString(string(ctx.PostBody())),
+            Headers: C.CString("Header"), //figure this out
         }
-        wPtr := cpointers.Ref(unsafe.Pointer(&w))
+        wPtr := cpointers.Ref(unsafe.Pointer(&ctx))
         C.Call_HandleFunc(C.ResponseWriterPtr(wPtr), &creq, cfn)
         // release the C memory
         C.free(unsafe.Pointer(creq.Method))
@@ -126,12 +99,12 @@ func HandleFunc(cpattern *C.char, cfn *C.FuncPtr) {
 //export ResponseWriter_Write
 func ResponseWriter_Write(wPtr C.long, cbuf *C.char, length C.int) C.int {
     buf := C.GoBytes(unsafe.Pointer(cbuf), length)
-
-    w, ok := cpointers.Deref(wPtr)
+    ctxU, ok := cpointers.Deref(wPtr)
     if !ok {
         return 0
     }
-    n, err := (*(*http.ResponseWriter)(w)).Write(buf)
+    ctx := *((**fasthttp.RequestCtx)(ctxU))
+    n, err := ctx.Write(buf)
     if err != nil {
         return 0
     }
@@ -140,11 +113,12 @@ func ResponseWriter_Write(wPtr C.long, cbuf *C.char, length C.int) C.int {
 
 //export ResponseWriter_WriteHeader
 func ResponseWriter_WriteHeader(wPtr C.long, header C.int) {
-    w, ok := cpointers.Deref(wPtr)
+    ctx, ok := cpointers.Deref(wPtr)
     if !ok {
         return
     }
-    (*(*http.ResponseWriter)(w)).WriteHeader(int(header))
+    (*(**fasthttp.RequestCtx)(ctx)).Response.Header.Set("Content-type", "application/json")
+    (*(**fasthttp.RequestCtx)(ctx)).Response.Header.Set("status", "1")
 }
 
 func main() {}

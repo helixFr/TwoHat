@@ -1,4 +1,4 @@
-from goHttpWrapper import route, run
+from goHttpWrapper import route
 from cffi import FFI
 from pyBackend import *
 import json
@@ -25,8 +25,13 @@ def merge_topics(dicts, merged):
 def filter_text(str):
     return str.split()
 
-@route('/')
+ffi = FFI()
+jsonLoc = lib.loadJson()
+print("Loaded json")
+print("Server running on port :5050")
+@route
 def index(w, req):
+    w.set_status(1)
     merged = {}
     dicts = []
     requestString = req.body.decode("utf-8")
@@ -39,8 +44,3 @@ def index(w, req):
     merge_topics(dicts, merged)
     requestDict["topics"] = merged
     w.write(b"%s" % json.dumps(requestDict).encode("utf-8"))
-
-ffi = FFI()
-jsonLoc = lib.loadJson()
-print("Loaded json")
-run()

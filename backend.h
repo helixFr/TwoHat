@@ -40,7 +40,6 @@ typedef void FuncPtr(ResponseWriterPtr w, Request *r);
 
 extern void Call_HandleFunc(ResponseWriterPtr w, Request *r, FuncPtr *fn);
 extern void HandleFunc(char* cpattern, FuncPtr* fn);
-extern void Hello();
 
 #line 1 "cgo-generated-wrapper"
 
@@ -96,10 +95,6 @@ extern "C" {
 extern long int loadJson();
 
 extern char* returnFromJson(long int p0, char* p1);
-
-extern void ListenAndServe(char* p0);
-
-extern void Shutdown();
 
 extern void HandleFunc(char* p0, FuncPtr* p1);
 
